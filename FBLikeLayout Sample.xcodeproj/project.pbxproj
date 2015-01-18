@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3CACDA961A6BBB70008794BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDA951A6BBB70008794BA /* main.m */; };
+		3CACDA991A6BBB70008794BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDA981A6BBB70008794BA /* AppDelegate.m */; };
+		3CACDA9C1A6BBB70008794BA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDA9B1A6BBB70008794BA /* ViewController.m */; };
+		3CACDA9F1A6BBB70008794BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CACDA9D1A6BBB70008794BA /* Main.storyboard */; };
+		3CACDAA11A6BBB70008794BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CACDAA01A6BBB70008794BA /* Images.xcassets */; };
+		3CACDAA41A6BBB70008794BA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CACDAA21A6BBB70008794BA /* LaunchScreen.xib */; };
+		3CACDAB01A6BBB70008794BA /* FBLikeLayout_SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDAAF1A6BBB70008794BA /* FBLikeLayout_SampleTests.m */; };
+		3CACDABC1A6BBBDC008794BA /* FBLikeLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDABB1A6BBBDC008794BA /* FBLikeLayout.m */; };
+		3CACDABE1A6BC495008794BA /* SampleImages.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3CACDABD1A6BC495008794BA /* SampleImages.bundle */; };
+		3CACDAC11A6BC570008794BA /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CACDAC01A6BC570008794BA /* ImageCollectionViewCell.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3CACDAAA1A6BBB70008794BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3CACDA881A6BBB70008794BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CACDA8F1A6BBB70008794BA;
+			remoteInfo = "FBLikeLayout Sample";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3CACDA901A6BBB70008794BA /* FBLikeLayout Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FBLikeLayout Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CACDA941A6BBB70008794BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3CACDA951A6BBB70008794BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3CACDA971A6BBB70008794BA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3CACDA981A6BBB70008794BA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3CACDA9A1A6BBB70008794BA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3CACDA9B1A6BBB70008794BA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		3CACDA9E1A6BBB70008794BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3CACDAA01A6BBB70008794BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3CACDAA31A6BBB70008794BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		3CACDAA91A6BBB70008794BA /* FBLikeLayout SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FBLikeLayout SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CACDAAE1A6BBB70008794BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3CACDAAF1A6BBB70008794BA /* FBLikeLayout_SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBLikeLayout_SampleTests.m; sourceTree = "<group>"; };
+		3CACDABA1A6BBBDC008794BA /* FBLikeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLikeLayout.h; sourceTree = "<group>"; };
+		3CACDABB1A6BBBDC008794BA /* FBLikeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLikeLayout.m; sourceTree = "<group>"; };
+		3CACDABD1A6BC495008794BA /* SampleImages.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SampleImages.bundle; sourceTree = "<group>"; };
+		3CACDABF1A6BC570008794BA /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewCell.h; sourceTree = "<group>"; };
+		3CACDAC01A6BC570008794BA /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewCell.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3CACDA8D1A6BBB70008794BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CACDAA61A6BBB70008794BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3CACDA871A6BBB70008794BA = {
+			isa = PBXGroup;
+			children = (
+				3CACDA921A6BBB70008794BA /* FBLikeLayout Sample */,
+				3CACDAAC1A6BBB70008794BA /* FBLikeLayout SampleTests */,
+				3CACDA911A6BBB70008794BA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3CACDA911A6BBB70008794BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDA901A6BBB70008794BA /* FBLikeLayout Sample.app */,
+				3CACDAA91A6BBB70008794BA /* FBLikeLayout SampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3CACDA921A6BBB70008794BA /* FBLikeLayout Sample */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDAB91A6BBBA6008794BA /* FBLikeLayout */,
+				3CACDA971A6BBB70008794BA /* AppDelegate.h */,
+				3CACDA981A6BBB70008794BA /* AppDelegate.m */,
+				3CACDA9A1A6BBB70008794BA /* ViewController.h */,
+				3CACDA9B1A6BBB70008794BA /* ViewController.m */,
+				3CACDABF1A6BC570008794BA /* ImageCollectionViewCell.h */,
+				3CACDAC01A6BC570008794BA /* ImageCollectionViewCell.m */,
+				3CACDA9D1A6BBB70008794BA /* Main.storyboard */,
+				3CACDABD1A6BC495008794BA /* SampleImages.bundle */,
+				3CACDAA01A6BBB70008794BA /* Images.xcassets */,
+				3CACDAA21A6BBB70008794BA /* LaunchScreen.xib */,
+				3CACDA931A6BBB70008794BA /* Supporting Files */,
+			);
+			path = "FBLikeLayout Sample";
+			sourceTree = "<group>";
+		};
+		3CACDA931A6BBB70008794BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDA941A6BBB70008794BA /* Info.plist */,
+				3CACDA951A6BBB70008794BA /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3CACDAAC1A6BBB70008794BA /* FBLikeLayout SampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDAAF1A6BBB70008794BA /* FBLikeLayout_SampleTests.m */,
+				3CACDAAD1A6BBB70008794BA /* Supporting Files */,
+			);
+			path = "FBLikeLayout SampleTests";
+			sourceTree = "<group>";
+		};
+		3CACDAAD1A6BBB70008794BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDAAE1A6BBB70008794BA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3CACDAB91A6BBBA6008794BA /* FBLikeLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3CACDABA1A6BBBDC008794BA /* FBLikeLayout.h */,
+				3CACDABB1A6BBBDC008794BA /* FBLikeLayout.m */,
+			);
+			path = FBLikeLayout;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3CACDA8F1A6BBB70008794BA /* FBLikeLayout Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CACDAB31A6BBB70008794BA /* Build configuration list for PBXNativeTarget "FBLikeLayout Sample" */;
+			buildPhases = (
+				3CACDA8C1A6BBB70008794BA /* Sources */,
+				3CACDA8D1A6BBB70008794BA /* Frameworks */,
+				3CACDA8E1A6BBB70008794BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FBLikeLayout Sample";
+			productName = "FBLikeLayout Sample";
+			productReference = 3CACDA901A6BBB70008794BA /* FBLikeLayout Sample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3CACDAA81A6BBB70008794BA /* FBLikeLayout SampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CACDAB61A6BBB70008794BA /* Build configuration list for PBXNativeTarget "FBLikeLayout SampleTests" */;
+			buildPhases = (
+				3CACDAA51A6BBB70008794BA /* Sources */,
+				3CACDAA61A6BBB70008794BA /* Frameworks */,
+				3CACDAA71A6BBB70008794BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CACDAAB1A6BBB70008794BA /* PBXTargetDependency */,
+			);
+			name = "FBLikeLayout SampleTests";
+			productName = "FBLikeLayout SampleTests";
+			productReference = 3CACDAA91A6BBB70008794BA /* FBLikeLayout SampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CACDA881A6BBB70008794BA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "La Nuova Era";
+				TargetAttributes = {
+					3CACDA8F1A6BBB70008794BA = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					3CACDAA81A6BBB70008794BA = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 3CACDA8F1A6BBB70008794BA;
+					};
+				};
+			};
+			buildConfigurationList = 3CACDA8B1A6BBB70008794BA /* Build configuration list for PBXProject "FBLikeLayout Sample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3CACDA871A6BBB70008794BA;
+			productRefGroup = 3CACDA911A6BBB70008794BA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3CACDA8F1A6BBB70008794BA /* FBLikeLayout Sample */,
+				3CACDAA81A6BBB70008794BA /* FBLikeLayout SampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CACDA8E1A6BBB70008794BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CACDA9F1A6BBB70008794BA /* Main.storyboard in Resources */,
+				3CACDAA41A6BBB70008794BA /* LaunchScreen.xib in Resources */,
+				3CACDAA11A6BBB70008794BA /* Images.xcassets in Resources */,
+				3CACDABE1A6BC495008794BA /* SampleImages.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CACDAA71A6BBB70008794BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CACDA8C1A6BBB70008794BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CACDABC1A6BBBDC008794BA /* FBLikeLayout.m in Sources */,
+				3CACDA9C1A6BBB70008794BA /* ViewController.m in Sources */,
+				3CACDAC11A6BC570008794BA /* ImageCollectionViewCell.m in Sources */,
+				3CACDA991A6BBB70008794BA /* AppDelegate.m in Sources */,
+				3CACDA961A6BBB70008794BA /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CACDAA51A6BBB70008794BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CACDAB01A6BBB70008794BA /* FBLikeLayout_SampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3CACDAAB1A6BBB70008794BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CACDA8F1A6BBB70008794BA /* FBLikeLayout Sample */;
+			targetProxy = 3CACDAAA1A6BBB70008794BA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3CACDA9D1A6BBB70008794BA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CACDA9E1A6BBB70008794BA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3CACDAA21A6BBB70008794BA /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CACDAA31A6BBB70008794BA /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3CACDAB11A6BBB70008794BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3CACDAB21A6BBB70008794BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3CACDAB41A6BBB70008794BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "FBLikeLayout Sample/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3CACDAB51A6BBB70008794BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "FBLikeLayout Sample/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3CACDAB71A6BBB70008794BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "FBLikeLayout SampleTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FBLikeLayout Sample.app/FBLikeLayout Sample";
+			};
+			name = Debug;
+		};
+		3CACDAB81A6BBB70008794BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "FBLikeLayout SampleTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FBLikeLayout Sample.app/FBLikeLayout Sample";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CACDA8B1A6BBB70008794BA /* Build configuration list for PBXProject "FBLikeLayout Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CACDAB11A6BBB70008794BA /* Debug */,
+				3CACDAB21A6BBB70008794BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CACDAB31A6BBB70008794BA /* Build configuration list for PBXNativeTarget "FBLikeLayout Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CACDAB41A6BBB70008794BA /* Debug */,
+				3CACDAB51A6BBB70008794BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3CACDAB61A6BBB70008794BA /* Build configuration list for PBXNativeTarget "FBLikeLayout SampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CACDAB71A6BBB70008794BA /* Debug */,
+				3CACDAB81A6BBB70008794BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3CACDA881A6BBB70008794BA /* Project object */;
+}
