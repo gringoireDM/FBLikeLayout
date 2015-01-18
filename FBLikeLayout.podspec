@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.author             = { "Giuseppe Lanza" => "gringoire986@gmail.com" }
   s.social_media_url   = "http://twitter.com/gringoireDM"
-  s.platform     = :ios, '7.1'
+  s.platform     = :ios, '7.0'
   s.requires_arc = true
   s.source       = { :git => "https://github.com/gringoireDM/FBLikeLayout.git", :tag => "1.0" }
 
