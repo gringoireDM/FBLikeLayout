@@ -186,6 +186,7 @@
 						CGRect thisRect = [thisNonSquaredFrameDict[@"frame"] CGRectValue];
 						if(CGRectContainsPoint(thisRect, offset)){
 							goodRect = NO;
+							break;
 						}
 					}
 				}
@@ -292,7 +293,7 @@
 					
 					mid = (left+right)/2;
 				}
-			} while (mid >= 0 && mid < [self.collectionView numberOfItemsInSection:section] && firstMatch == NSNotFound && left > right);
+			} while (mid >= 0 && mid < [self.collectionView numberOfItemsInSection:section] && firstMatch == NSNotFound && left < right);
 			
 			if(firstMatch != NSNotFound){
 				//left part
