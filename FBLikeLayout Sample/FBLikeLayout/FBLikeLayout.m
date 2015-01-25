@@ -136,7 +136,7 @@
 
 	CGFloat maxH = 0;
 	
-	CGPoint offset = CGPointZero;
+	__block CGPoint offset = CGPointZero;
 
 	for(NSInteger section = 0; section < sections; section++){
 		NSInteger items = [self.collectionView numberOfItemsInSection:section];
@@ -184,7 +184,7 @@
 			NSArray *row = [[reticleMatrix filteredArrayUsingPredicate:predicate] firstObject];
 			
 			MatrixElement *thisElement = nil;
-			
+			BOOL lastCached = NO;
 			if(row){
 				for(MatrixElement *element in row){
 					if([element.indexPath isEqual:indexPath])
@@ -210,10 +210,15 @@
 				}
 				
 				self.attributesForIndexPath[indexPath] = thisElement.attributes;
-		
-				//update the current row and column and offsets
 				
+				//update the current row and column and offsets
+				lastCached = YES;
 			} else {
+				if(lastCached){
+					[self findNextFreeCell:&currentRow currentColumn:&currentColumn reticleMatrix:reticleMatrix withdidAddRowBlock:^{
+						offset.y += cellWidthToUse+realInteritemSpacing;
+					}];
+				}
 				
 				CGSize thisCellSize = CGSizeMake(cellWidthToUse, cellWidthToUse);
 				
@@ -291,26 +296,9 @@
 					self.attributesForIndexPath[indexPath] = thisCellElement.attributes;
 					
 					//next free cell
-					BOOL found = NO;
-					NSInteger startingRow = currentRow;
-					for(NSInteger j = startingRow; j < reticleMatrix.count; j++){
-						NSMutableArray *row = reticleMatrix[j];
-						for(NSInteger i = (j== startingRow? currentColumn+1: 0); i < row.count; i++){
-							MatrixElement *element = row[i];
-							if(CGRectIsEmpty(element.frame)){
-								currentColumn = i;
-								found = YES;
-								break;
-							}
-						}
-						if(!found){
-							currentRow ++;
-							currentColumn = 0;
-							
-							offset.y += cellWidthToUse+realInteritemSpacing;
-						} else
-							break;
-					}
+					[self findNextFreeCell:&currentRow currentColumn:&currentColumn reticleMatrix:reticleMatrix withdidAddRowBlock:^{
+						offset.y += cellWidthToUse+realInteritemSpacing;
+					}];
 				}
 				
 			}
@@ -336,8 +324,28 @@
 	self.contentSize = CGSizeMake(self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right, maxH);
 }
 
--(void) generateAttributesInMatrix:(NSMutableArray *)matrix fromItem:(NSInteger)from items:(NSInteger)items maxH:(NSInteger *)maxH{
-	
+-(void) findNextFreeCell:(NSInteger *) currentRow currentColumn:(NSInteger *)currentColumn reticleMatrix:(NSMutableArray *) reticleMatrix withdidAddRowBlock:(void(^)()) didAddRow{
+	BOOL found = NO;
+	NSInteger startingRow = *currentRow;
+	for(NSInteger j = startingRow; j < reticleMatrix.count; j++){
+		NSMutableArray *row = reticleMatrix[j];
+		for(NSInteger i = (j== startingRow? *currentColumn+1: 0); i < row.count; i++){
+			MatrixElement *element = row[i];
+			if(CGRectIsEmpty(element.frame)){
+				*currentColumn = i;
+				found = YES;
+				break;
+			}
+		}
+		if(!found){
+			*currentRow += 1;
+			*currentColumn = 0;
+			
+			if(didAddRow)
+				didAddRow();
+		} else
+			break;
+	}
 }
 
 -(void) printMatrix:(NSMutableArray *) matrix{
