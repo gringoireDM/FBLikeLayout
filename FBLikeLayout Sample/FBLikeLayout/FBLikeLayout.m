@@ -176,7 +176,8 @@
 		}
 		CGFloat oldOffset = [boundedMatrices[@"sectionOffset"] floatValue];
 		boundedMatrices[@"sectionOffset"] = @(maxH);
-		
+		BOOL lastCached = NO;
+
 		for(NSInteger item = 0; item < items; item++){
 			NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
 			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(SELF.indexPath, $a, $a == %@).@count != 0", indexPath];
@@ -184,7 +185,6 @@
 			NSArray *row = [[reticleMatrix filteredArrayUsingPredicate:predicate] firstObject];
 			
 			MatrixElement *thisElement = nil;
-			BOOL lastCached = NO;
 			if(row){
 				for(MatrixElement *element in row){
 					if([element.indexPath isEqual:indexPath])
@@ -219,6 +219,8 @@
 						offset.y += cellWidthToUse+realInteritemSpacing;
 					}];
 				}
+				
+				lastCached = NO;
 				
 				CGSize thisCellSize = CGSizeMake(cellWidthToUse, cellWidthToUse);
 				
