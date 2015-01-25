@@ -8,17 +8,45 @@
 
 #import "FBLikeLayout.h"
 
-@interface FBLikeLayout()
+@interface MatrixElement : NSObject
 
-@property (nonatomic, strong) NSMutableArray  *nonSquaredRects;
+@property (nonatomic, assign) CGRect frame;
+@property (nonatomic, assign) NSInteger columns;
+@property (nonatomic, assign) NSInteger rows;
+@property (nonatomic, copy) NSIndexPath *indexPath;
+@property (nonatomic, strong) UICollectionViewLayoutAttributes *attributes;
+
+@end
+
+@implementation MatrixElement
+
+-(instancetype)init{
+	self = [super init];
+	
+	if(self){
+		self.frame = CGRectZero;
+		self.columns = 0;
+		self.rows = 0;
+		self.indexPath = nil;
+	}
+	
+	return self;
+}
+
+-(NSString *)description{
+	return [NSString stringWithFormat:@"MatrixElemnt %lix%li for indexPath: %li - %li, frame: %@", self.columns, self.rows, self.indexPath.item, self.indexPath.section, NSStringFromCGRect(self.frame)];
+}
+
+@end
+
+@interface FBLikeLayout()
 
 @property (nonatomic, strong) NSMutableDictionary *attributesForIndexPath;
 @property (nonatomic, strong) NSMutableDictionary *framesForHeaderSection;
 @property (nonatomic, strong) NSMutableDictionary *framesForFooterSection;
+@property (nonatomic, strong) NSMutableArray *sectionMatrices;
 
 @property (nonatomic, assign) CGSize contentSize;
-
-@property (nonatomic, assign) CGRect referringBounds;
 
 @end
 
@@ -35,7 +63,7 @@
 #if DEBUG
 
 -(void)dealloc{
-	DLog(@"Dealloc called");
+	//DLog(@"Dealloc called");
 }
 
 #endif
@@ -60,11 +88,25 @@
 	return _framesForFooterSection;
 }
 
--(NSMutableArray *)nonSquaredRects{
-	if(!_nonSquaredRects)
-		_nonSquaredRects = [NSMutableArray new];
+-(NSMutableArray *)sectionMatrices{
+	if(!_sectionMatrices)
+		_sectionMatrices = [NSMutableArray new];
 	
-	return _nonSquaredRects;
+	return _sectionMatrices;
+}
+
+-(NSInteger) voidElementsInRow:(NSArray *) row fromColumn:(NSInteger)column{
+	NSInteger count = 0;
+	
+	for(NSInteger i = column; i < row.count; i++){
+		if(CGRectIsEmpty([(MatrixElement *)row[i] frame])){
+			count++;
+		} else {
+			break;
+		}
+	}
+	
+	return count;
 }
 
 -(void)prepareLayout{
@@ -80,9 +122,6 @@
 	if(self.maxCellSpace == 0)
 		self.maxCellSpace = 3;
 	
-	NSInteger sections = [self.collectionView numberOfSections];
-	CGPoint offset = CGPointZero;
-	
 	int columns = floorf((self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right)/cellWidthToUse);
 	
 	CGFloat realInteritemSpacing = MAX(self.minimumInteritemSpacing, (self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right-(float)columns*cellWidthToUse)/(columns-1));
@@ -93,20 +132,16 @@
 		realInteritemSpacing = self.minimumInteritemSpacing;
 	}
 	
+	NSInteger sections = [self.collectionView numberOfSections];
+
 	CGFloat maxH = 0;
 	
-	if(!CGRectEqualToRect(self.referringBounds, self.collectionView.frame)){
-		[self.nonSquaredRects removeAllObjects];
-		[self.attributesForIndexPath removeAllObjects];
-		[self.framesForFooterSection removeAllObjects];
-		[self.framesForHeaderSection removeAllObjects];
-		
-		self.referringBounds = self.collectionView.frame;
-	}
-	
+	__block CGPoint offset = CGPointZero;
+
 	for(NSInteger section = 0; section < sections; section++){
 		NSInteger items = [self.collectionView numberOfItemsInSection:section];
 		
+		//Section Header
 		if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:referenceSizeForHeaderInSection:)]){
 			CGSize headerSize = [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate collectionView:self.collectionView layout:self referenceSizeForHeaderInSection:section];
 			
@@ -118,31 +153,100 @@
 			offset.y = maxH;
 		}
 		
+		NSInteger currentRow = 0;
+		NSInteger currentColumn = 0;
+		
+		NSMutableArray *reticleMatrix = nil;
+		NSMutableDictionary *boundedMatrices = nil;
+		
+		if(section < self.sectionMatrices.count){
+			 boundedMatrices = self.sectionMatrices[section];
+			
+		} else {
+			boundedMatrices = [NSMutableDictionary new];
+			[self.sectionMatrices addObject:boundedMatrices];
+		}
+		
+		
+		if(boundedMatrices[NSStringFromCGSize(self.collectionView.bounds.size)]){
+			reticleMatrix = boundedMatrices[NSStringFromCGSize(self.collectionView.bounds.size)];
+		} else{
+			reticleMatrix = [NSMutableArray new];
+			boundedMatrices[NSStringFromCGSize(self.collectionView.bounds.size)] = reticleMatrix;
+		}
+		CGFloat oldOffset = [boundedMatrices[@"sectionOffset"] floatValue];
+		boundedMatrices[@"sectionOffset"] = @(maxH);
+		BOOL lastCached = NO;
+
 		for(NSInteger item = 0; item < items; item++){
 			NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-			CGSize thisCellSize = CGSizeMake(cellWidthToUse, cellWidthToUse);
-			BOOL foundANonSquared = NO;
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(SELF.indexPath, $a, $a == %@).@count != 0", indexPath];
 			
-			NSInteger currentColumn = offset.x/(cellWidthToUse+realInteritemSpacing);
-			if(!self.attributesForIndexPath[indexPath]){
+			NSArray *row = [[reticleMatrix filteredArrayUsingPredicate:predicate] firstObject];
+			
+			MatrixElement *thisElement = nil;
+			if(row){
+				for(MatrixElement *element in row){
+					if([element.indexPath isEqual:indexPath])
+						thisElement = element;
+				}
+				
+				currentRow = [reticleMatrix indexOfObject:row];
+				currentColumn = [row indexOfObject:thisElement];
+				//DLog(@"Restoring item %li, %li", currentRow, currentColumn);
+				
+				CGRect frame = thisElement.frame;
+				frame.origin.y -= oldOffset;
+				frame.origin.y += [boundedMatrices[@"sectionOffset"] floatValue];
+				
+				offset.x = frame.origin.x;
+				offset.y = frame.origin.y;
+				
+				thisElement.frame = frame;
+				thisElement.attributes.frame = frame;
+				
+				if(maxH < CGRectGetMaxY(frame)){
+					maxH = CGRectGetMaxY(frame);
+				}
+				
+				self.attributesForIndexPath[indexPath] = thisElement.attributes;
+				
+				//update the current row and column and offsets
+				lastCached = YES;
+			} else {
+				if(lastCached){
+					[self findNextFreeCell:&currentRow currentColumn:&currentColumn reticleMatrix:reticleMatrix withdidAddRowBlock:^{
+						offset.y += cellWidthToUse+realInteritemSpacing;
+					}];
+				}
+				
+				lastCached = NO;
+				
+				CGSize thisCellSize = CGSizeMake(cellWidthToUse, cellWidthToUse);
+				
+				NSMutableArray *currentRowArray = nil;
+				if (currentColumn == 0 && reticleMatrix.count <= currentRow){
+					currentRowArray = [self addRowOfItems:columns];
+					[reticleMatrix addObject:currentRowArray];
+				} else {
+					currentRowArray = [reticleMatrix objectAtIndex:currentRow];
+				}
+				
+				offset.x = currentColumn*(cellWidthToUse+realInteritemSpacing);
+				
+				MatrixElement *thisCellElement = currentRowArray[currentColumn];
+				thisCellElement.indexPath = indexPath;
+				thisCellElement.columns = 1;
+				thisCellElement.rows = 1;
+				
 				if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]){
 					CGSize preferredItemSize = [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
 					
 					//if it is > 1 then the photo is in landscape else it is in portrait or it is squared
 					CGFloat cellRatio = preferredItemSize.width/preferredItemSize.height;
 					
-					
-					NSInteger leftColumns = columns-currentColumn;
-					for(NSDictionary *thisNonSquaredFrameDict in self.nonSquaredRects){
-						CGRect thisRect = [thisNonSquaredFrameDict[@"frame"] CGRectValue];
-						if(offset.y < CGRectGetMaxY(thisRect) && offset.x <= thisRect.origin.x){
-							//				NSInteger nonSquaredColumns = (lastNonSquaredRect.size.width+realInteritemSpacing)/(cellWidthToUse+realInteritemSpacing);
-							
-							//it should be minimum 0
-							leftColumns = MIN([thisNonSquaredFrameDict[@"column"] integerValue]-currentColumn, leftColumns);
-						}
-					}
-					DLog(@"current column %li leftColumns %li", (long)currentColumn, (long)leftColumns);
+					NSInteger leftColumns = [self voidElementsInRow:currentRowArray fromColumn:currentColumn];
+					//DLog(@"current column %li leftColumns %li", (long)currentColumn, (long)leftColumns);
 					
 					if(self.fullImagePercentageOfOccurrency != -1 && currentColumn < columns && leftColumns >= self.maxCellSpace-1){
 						int roll = 1+arc4random()%100;
@@ -153,86 +257,58 @@
 							
 							if(fabs(numberOfYColumns-numberOfWColumns) >= 1){
 								
-								DLog(@"nonSquaredCell: %li x %li", (long)numberOfWColumns, (long)numberOfYColumns);
+								//DLog(@"nonSquaredCell: %li x %li", (long)numberOfWColumns, (long)numberOfYColumns);
 								
 								CGFloat width = cellWidthToUse*numberOfWColumns + (numberOfWColumns-1)*realInteritemSpacing;
 								CGFloat height = cellWidthToUse*numberOfYColumns + (numberOfYColumns-1)*realInteritemSpacing;
 								
 								thisCellSize = CGSizeMake(width, height);
 								
-								foundANonSquared = YES;
+								thisCellElement.columns = numberOfWColumns;
+								thisCellElement.rows = numberOfYColumns;
+								
+								for(NSInteger j = currentRow; j < currentRow+numberOfYColumns; j++){
+									NSMutableArray *processingRow = nil;
+									if(reticleMatrix.count <= j){
+										processingRow = [self addRowOfItems:columns];
+										[reticleMatrix addObject:processingRow];
+									} else {
+										processingRow = reticleMatrix[j];
+									}
+									
+									for(NSInteger i = currentColumn; i < currentColumn+numberOfWColumns; i++){
+										[processingRow replaceObjectAtIndex:i withObject:thisCellElement];
+									}
+								}
 							}
 						}
 					}
 					
-				}
-				
-				CGRect thisCellRect = CGRectMake(offset.x, offset.y, thisCellSize.width, thisCellSize.height);
-				if(foundANonSquared){
-					[self.nonSquaredRects addObject:@{@"frame": [NSValue valueWithCGRect:thisCellRect], @"column": @(currentColumn)}];
-				}
-				
-				BOOL goodRect = NO;
-				while (goodRect == NO) {
-					offset.x += realInteritemSpacing+cellWidthToUse;
+					CGRect thisCellRect = CGRectMake(offset.x, offset.y, thisCellSize.width, thisCellSize.height);
+					thisCellElement.frame = thisCellRect;
 					
-					if(offset.x >= self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right){
-						offset.x = 0;
+					if(maxH < CGRectGetMaxY(thisCellRect)){
+						maxH = CGRectGetMaxY(thisCellRect);
+					}
+					
+					UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+					attributes.frame = thisCellRect;
+					
+					thisCellElement.attributes = attributes;
+					self.attributesForIndexPath[indexPath] = thisCellElement.attributes;
+					
+					//next free cell
+					[self findNextFreeCell:&currentRow currentColumn:&currentColumn reticleMatrix:reticleMatrix withdidAddRowBlock:^{
 						offset.y += cellWidthToUse+realInteritemSpacing;
-					}
-					
-					goodRect = YES;
-					for(NSDictionary *thisNonSquaredFrameDict in self.nonSquaredRects){
-						CGRect thisRect = [thisNonSquaredFrameDict[@"frame"] CGRectValue];
-						if(CGRectContainsPoint(thisRect, offset)){
-							goodRect = NO;
-							break;
-						}
-					}
+					}];
 				}
 				
-				if(maxH < CGRectGetMaxY(thisCellRect)){
-					maxH = CGRectGetMaxY(thisCellRect);
-				}
-				
-				
-				UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-				attributes.frame = thisCellRect;
-				
-				self.attributesForIndexPath[indexPath] = attributes;
-			} else {
-				NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:item+1 inSection:section];
-				CGRect thisCellRect = [self.attributesForIndexPath[indexPath] frame];
-				
-				if(!self.attributesForIndexPath[nextIndexPath]){
-					BOOL goodRect = NO;
-					while (goodRect == NO) {
-						offset.x += realInteritemSpacing+cellWidthToUse;
-						
-						if(offset.x >= self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right){
-							offset.x = 0;
-							offset.y += cellWidthToUse+realInteritemSpacing;
-						}
-						
-						goodRect = YES;
-						for(NSDictionary *thisNonSquaredFrameDict in self.nonSquaredRects){
-							CGRect thisRect = [thisNonSquaredFrameDict[@"frame"] CGRectValue];
-							if(CGRectContainsPoint(thisRect, offset)){
-								goodRect = NO;
-							}
-						}
-					}
-				} else {
-					CGRect nextCellRect = [self.attributesForIndexPath[nextIndexPath] frame];
-					offset = nextCellRect.origin;
-				}
-				
-				if(maxH < CGRectGetMaxY(thisCellRect)){
-					maxH = CGRectGetMaxY(thisCellRect);
-				}
 			}
+			
 		}
 		
+		
+		[self printMatrix:reticleMatrix];
 		//section footer
 		
 		if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:referenceSizeForFooterInSection:)]){
@@ -248,6 +324,52 @@
 	}
 	
 	self.contentSize = CGSizeMake(self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right, maxH);
+}
+
+-(void) findNextFreeCell:(NSInteger *) currentRow currentColumn:(NSInteger *)currentColumn reticleMatrix:(NSMutableArray *) reticleMatrix withdidAddRowBlock:(void(^)()) didAddRow{
+	BOOL found = NO;
+	NSInteger startingRow = *currentRow;
+	for(NSInteger j = startingRow; j < reticleMatrix.count; j++){
+		NSMutableArray *row = reticleMatrix[j];
+		for(NSInteger i = (j== startingRow? *currentColumn+1: 0); i < row.count; i++){
+			MatrixElement *element = row[i];
+			if(CGRectIsEmpty(element.frame)){
+				*currentColumn = i;
+				found = YES;
+				break;
+			}
+		}
+		if(!found){
+			*currentRow += 1;
+			*currentColumn = 0;
+			
+			if(didAddRow)
+				didAddRow();
+		} else
+			break;
+	}
+}
+
+-(void) printMatrix:(NSMutableArray *) matrix{
+	NSString *description = @"\n";
+	for(NSInteger i = 0; i < matrix.count; i++){
+		NSMutableArray *row = matrix[i];
+		for(NSInteger j = 0; j < row.count; j++){
+			MatrixElement *element = row[j];
+			description = [description stringByAppendingFormat:@"\t %li", element.indexPath.item];
+		}
+		description = [description stringByAppendingString:@"\n"];
+	}
+	//DLog(@"Matrix: %@", description);
+}
+
+-(NSMutableArray *) addRowOfItems:(NSInteger) items{
+	NSMutableArray *row = [NSMutableArray new];
+	for(NSInteger i = 0; i < items; i++){
+		[row addObject:[MatrixElement new]];
+	}
+	
+	return row;
 }
 
 -(NSArray *)layoutAttributesForElementsInRect:(CGRect)rect{
@@ -365,7 +487,7 @@
 -(void) invalidateLayout{
 	[super invalidateLayout];
 	
-	DLog(@"layout Invalidated");
+	//DLog(@"layout Invalidated");
 }
 
 @end

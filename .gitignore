@@ -1,12 +1,18 @@
-
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
 *.xccheckout
-
-*.xcuserstate
-
-FBLikeLayout Sample.xcodeproj/project.xcworkspace/xcuserdata/Lorentz.xcuserdatad/UserInterfaceState.xcuserstate
-
-FBLikeLayout Sample.xcodeproj/project.xcworkspace/xcuserdata/Lorentz.xcuserdatad/UserInterfaceState.xcuserstate
-
-*.xcuserstate
-
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
 *.xcuserstate
