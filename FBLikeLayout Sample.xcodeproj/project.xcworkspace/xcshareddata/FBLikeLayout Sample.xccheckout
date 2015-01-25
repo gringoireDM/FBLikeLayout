@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A64DE99A-6976-4CF7-8C9C-59A7BE2BEDC3</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FBLikeLayout Sample</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E56A4AD3F137493D542219BD13FA3212EDD1296E</key>
+		<string>https://github.com/gringoireDM/FBLikeLayout.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>FBLikeLayout Sample.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E56A4AD3F137493D542219BD13FA3212EDD1296E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/gringoireDM/FBLikeLayout.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E56A4AD3F137493D542219BD13FA3212EDD1296E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E56A4AD3F137493D542219BD13FA3212EDD1296E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FBLikeLayout%20Sample</string>
+		</dict>
+	</array>
+</dict>
+</plist>
