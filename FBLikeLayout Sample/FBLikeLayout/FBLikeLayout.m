@@ -63,7 +63,7 @@
 #if DEBUG
 
 -(void)dealloc{
-	DLog(@"Dealloc called");
+	//DLog(@"Dealloc called");
 }
 
 #endif
@@ -193,7 +193,7 @@
 				
 				currentRow = [reticleMatrix indexOfObject:row];
 				currentColumn = [row indexOfObject:thisElement];
-				DLog(@"Restoring item %li, %li", currentRow, currentColumn);
+				//DLog(@"Restoring item %li, %li", currentRow, currentColumn);
 				
 				CGRect frame = thisElement.frame;
 				frame.origin.y -= oldOffset;
@@ -246,7 +246,7 @@
 					CGFloat cellRatio = preferredItemSize.width/preferredItemSize.height;
 					
 					NSInteger leftColumns = [self voidElementsInRow:currentRowArray fromColumn:currentColumn];
-					DLog(@"current column %li leftColumns %li", (long)currentColumn, (long)leftColumns);
+					//DLog(@"current column %li leftColumns %li", (long)currentColumn, (long)leftColumns);
 					
 					if(self.fullImagePercentageOfOccurrency != -1 && currentColumn < columns && leftColumns >= self.maxCellSpace-1){
 						int roll = 1+arc4random()%100;
@@ -257,7 +257,7 @@
 							
 							if(fabs(numberOfYColumns-numberOfWColumns) >= 1){
 								
-								DLog(@"nonSquaredCell: %li x %li", (long)numberOfWColumns, (long)numberOfYColumns);
+								//DLog(@"nonSquaredCell: %li x %li", (long)numberOfWColumns, (long)numberOfYColumns);
 								
 								CGFloat width = cellWidthToUse*numberOfWColumns + (numberOfWColumns-1)*realInteritemSpacing;
 								CGFloat height = cellWidthToUse*numberOfYColumns + (numberOfYColumns-1)*realInteritemSpacing;
@@ -360,7 +360,7 @@
 		}
 		description = [description stringByAppendingString:@"\n"];
 	}
-	DLog(@"Matrix: %@", description);
+	//DLog(@"Matrix: %@", description);
 }
 
 -(NSMutableArray *) addRowOfItems:(NSInteger) items{
@@ -487,7 +487,7 @@
 -(void) invalidateLayout{
 	[super invalidateLayout];
 	
-	DLog(@"layout Invalidated");
+	//DLog(@"layout Invalidated");
 }
 
 @end
