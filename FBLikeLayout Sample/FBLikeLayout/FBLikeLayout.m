@@ -145,10 +145,10 @@
 		if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:referenceSizeForHeaderInSection:)]){
 			CGSize headerSize = [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate collectionView:self.collectionView layout:self referenceSizeForHeaderInSection:section];
 			
-			CGRect headerFrame = CGRectMake(-self.collectionView.contentInset.left, (section == 0? 0: realInteritemSpacing)+maxH, self.collectionView.bounds.size.width, headerSize.height);
+			CGRect headerFrame = CGRectMake(-self.collectionView.contentInset.left, (section == 0? 0: 2*realInteritemSpacing)+maxH, self.collectionView.bounds.size.width, headerSize.height);
 			self.framesForHeaderSection[@(section)] = [NSValue valueWithCGRect:headerFrame];
 			
-			maxH += headerFrame.size.height+realInteritemSpacing;
+			maxH += headerFrame.size.height+realInteritemSpacing+(section == 0? 0: 2*realInteritemSpacing);
 			offset.x = 0;
 			offset.y = maxH;
 		}
@@ -326,6 +326,12 @@
 	self.contentSize = CGSizeMake(self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right, maxH);
 }
 
+
+-(void) refreshSection:(NSInteger) section{
+	
+}
+
+
 -(void) findNextFreeCell:(NSInteger *) currentRow currentColumn:(NSInteger *)currentColumn reticleMatrix:(NSMutableArray *) reticleMatrix withdidAddRowBlock:(void(^)()) didAddRow{
 	BOOL found = NO;
 	NSInteger startingRow = *currentRow;
@@ -498,7 +504,6 @@
 		
 		if(indexPath.section < self.sectionMatrices.count){
 			boundedMatrices = self.sectionMatrices[indexPath.section];
-			
 		}
 		
 		for(NSMutableArray *reticleMatrix in [boundedMatrices allValues]){
@@ -527,12 +532,16 @@
 					if(rowsToDeleteFrom != -1){
 						[reticleMatrix removeObjectsInRange:NSMakeRange(rowsToDeleteFrom, reticleMatrix.count-rowsToDeleteFrom)];
 					}
-					
 					[self printMatrix:reticleMatrix];
 				}
 			}
 		}
+		
+		NSArray *keysToDelete = [[self.attributesForIndexPath allKeys] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"section == %@ && item >= %@", @(indexPath.section), @(indexPath.item)]];
+		[self.attributesForIndexPath removeObjectsForKeys:keysToDelete];
 	}
+	
+	[self invalidateLayout];
 }
 
 -(void) invalidateLayout{
