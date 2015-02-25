@@ -13,7 +13,7 @@
 @interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray * sourceArray;
+@property (nonatomic, strong) NSMutableArray * sourceArray;
 
 @end
 
@@ -23,10 +23,10 @@
 	return [[NSBundle mainBundle] pathForResource:@"SampleImages" ofType:@"bundle"];
 }
 
--(NSArray *) sourceArray {
+-(NSMutableArray *) sourceArray {
 	if(!_sourceArray){
 		NSString *path = [self sampleImagesBundlePath];
-		_sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+		_sourceArray = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] mutableCopy];
 	}
 	
 	return _sourceArray;
@@ -61,6 +61,21 @@
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
+}
+
+- (IBAction)addItemAction:(id)sender {
+	static NSInteger position;
+	NSString *objectToAdd = self.sourceArray[arc4random()%self.sourceArray.count];
+	[self.sourceArray insertObject:objectToAdd atIndex:position];
+	NSLog(@"Insert position = %li", (long)position);
+	
+	[self.collectionView performBatchUpdates:^{
+		[self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:position inSection:0]]];
+	} completion:nil];
+	
+	position++;
+	if(position > 10)
+		position = 0;
 }
 
 #pragma mark - CollectionView DataSource
