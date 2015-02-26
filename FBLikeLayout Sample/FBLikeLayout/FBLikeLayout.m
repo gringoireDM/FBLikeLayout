@@ -326,12 +326,6 @@
 	self.contentSize = CGSizeMake(self.collectionView.bounds.size.width-self.collectionView.contentInset.left-self.collectionView.contentInset.right, maxH);
 }
 
-
--(void) refreshSection:(NSInteger) section{
-	
-}
-
-
 -(void) findNextFreeCell:(NSInteger *) currentRow currentColumn:(NSInteger *)currentColumn reticleMatrix:(NSMutableArray *) reticleMatrix withdidAddRowBlock:(void(^)()) didAddRow{
 	BOOL found = NO;
 	NSInteger startingRow = *currentRow;
