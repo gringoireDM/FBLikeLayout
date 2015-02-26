@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wxG-an-U6B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wxG-an-U6B">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -64,7 +64,13 @@
                             <constraint firstItem="KCO-dl-rws" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pvk-bZ-oIv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Hv6-nG-e0a"/>
+                    <navigationItem key="navigationItem" id="Hv6-nG-e0a">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Zjy-PU-Xg4">
+                            <connections>
+                                <action selector="addItemAction:" destination="BYZ-38-t0r" id="tJn-bC-0HD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="KCO-dl-rws" id="WEo-ic-dtN"/>
                     </connections>

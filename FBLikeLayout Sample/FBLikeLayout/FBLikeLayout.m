@@ -145,10 +145,10 @@
 		if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:referenceSizeForHeaderInSection:)]){
 			CGSize headerSize = [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate collectionView:self.collectionView layout:self referenceSizeForHeaderInSection:section];
 			
-			CGRect headerFrame = CGRectMake(-self.collectionView.contentInset.left, (section == 0? 0: realInteritemSpacing)+maxH, self.collectionView.bounds.size.width, headerSize.height);
+			CGRect headerFrame = CGRectMake(-self.collectionView.contentInset.left, (section == 0? 0: 2*realInteritemSpacing)+maxH, self.collectionView.bounds.size.width, headerSize.height);
 			self.framesForHeaderSection[@(section)] = [NSValue valueWithCGRect:headerFrame];
 			
-			maxH += headerFrame.size.height+realInteritemSpacing;
+			maxH += headerFrame.size.height+realInteritemSpacing+(section == 0? 0: 2*realInteritemSpacing);
 			offset.x = 0;
 			offset.y = maxH;
 		}
@@ -308,7 +308,7 @@
 		}
 		
 		
-		[self printMatrix:reticleMatrix];
+		//[self printMatrix:reticleMatrix];
 		//section footer
 		
 		if([self.collectionView.delegate conformsToProtocol:@protocol(UICollectionViewDelegateFlowLayout)] && [(id<UICollectionViewDelegateFlowLayout>)self.collectionView.delegate respondsToSelector:@selector(collectionView:layout:referenceSizeForFooterInSection:)]){
@@ -360,7 +360,7 @@
 		}
 		description = [description stringByAppendingString:@"\n"];
 	}
-	//DLog(@"Matrix: %@", description);
+	DLog(@"Matrix: %@", description);
 }
 
 -(NSMutableArray *) addRowOfItems:(NSInteger) items{
@@ -482,6 +482,60 @@
 
 -(CGSize)collectionViewContentSize{
 	return self.contentSize;
+}
+
+-(void)prepareForCollectionViewUpdates:(NSArray *)updateItems{
+	for(UICollectionViewUpdateItem *thisUpdate in updateItems){
+		NSIndexPath *indexPath = nil;
+		
+		if(thisUpdate.updateAction == UICollectionUpdateActionDelete){
+			indexPath = [thisUpdate indexPathBeforeUpdate];
+		} else if(thisUpdate.updateAction == UICollectionUpdateActionInsert){
+			indexPath = [thisUpdate indexPathAfterUpdate];
+		}
+		
+		NSMutableDictionary *boundedMatrices = nil;
+		
+		if(indexPath.section < self.sectionMatrices.count){
+			boundedMatrices = self.sectionMatrices[indexPath.section];
+		}
+		
+		for(NSMutableArray *reticleMatrix in [boundedMatrices allValues]){
+			if([reticleMatrix isKindOfClass:[NSMutableArray class]]){
+				NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(SELF.indexPath, $a, $a == %@).@count != 0", indexPath];
+				NSMutableArray *row = [[reticleMatrix filteredArrayUsingPredicate:predicate] firstObject];
+				if(row){
+					NSInteger rowsToDeleteFrom = -1;
+					NSInteger rowIndex = [reticleMatrix indexOfObject:row];
+					for(NSInteger i = rowIndex; i < reticleMatrix.count; i++){
+						NSMutableArray *thisRow = reticleMatrix[i];
+						NSInteger replacedCount = 0;
+						for(NSInteger j = 0; j < thisRow.count; j++){
+							if([(MatrixElement *)thisRow[j] indexPath].item >= indexPath.item){
+								[thisRow replaceObjectAtIndex:j withObject:[MatrixElement new]];
+								replacedCount++;
+							}
+						}
+						
+						if(replacedCount == thisRow.count){
+							rowsToDeleteFrom = i;
+							break;
+						}
+					}
+					
+					if(rowsToDeleteFrom != -1){
+						[reticleMatrix removeObjectsInRange:NSMakeRange(rowsToDeleteFrom, reticleMatrix.count-rowsToDeleteFrom)];
+					}
+					[self printMatrix:reticleMatrix];
+				}
+			}
+		}
+		
+		NSArray *keysToDelete = [[self.attributesForIndexPath allKeys] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"section == %@ && item >= %@", @(indexPath.section), @(indexPath.item)]];
+		[self.attributesForIndexPath removeObjectsForKeys:keysToDelete];
+	}
+	
+	[self invalidateLayout];
 }
 
 -(void) invalidateLayout{
