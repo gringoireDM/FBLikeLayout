@@ -21,7 +21,7 @@ Just allocate a new `FBLikeLayout`, then customize the few properties this layou
 FBLikeLayout *layout = [FBLikeLayout new];
 
 //in this case we want 3 cells per row, maximum. This is also the default value if you do not customize the layout.singleCellWidth property 
-CGFLoat cellWidth = (MIN(self.collectionView.bounds.size.width, self.collectionView.bounds.size.height)-self.collectionView.contentInset.left-self.collectionView.contentInset.right-8)/3.0;
+CGFloat cellWidth = (MIN(self.collectionView.bounds.size.width, self.collectionView.bounds.size.height)-self.collectionView.contentInset.left-self.collectionView.contentInset.right-8)/3.0;
 
 layout.minimumInteritemSpacing = 4;
 layout.singleCellWidth = cellWidth;
