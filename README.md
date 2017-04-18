@@ -9,11 +9,11 @@ It works with standard layout delegate methods. No additional custom methods to 
 
 ![Screenshot2](./screenshot2.png)
 
-##FBLikeLayout
+## FBLikeLayout
 You can use this layout in your project by adding to your podfile:
 <pre>pod 'FBLikeLayout'</pre>
 
-##Usage
+## Usage
 
 Just allocate a new `FBLikeLayout`, then customize the few properties this layout comes with
 
